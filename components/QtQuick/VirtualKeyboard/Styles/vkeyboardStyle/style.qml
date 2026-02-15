@@ -86,8 +86,8 @@ KeyboardStyle {
         }
     }
 
-    keyboardDesignWidth: 2560
-    keyboardDesignHeight: 800
+    keyboardDesignWidth: Config.virtualKeyboardLayout === "numpad" ? 800 : 2560
+    keyboardDesignHeight: Config.virtualKeyboardLayout === "numpad" ? 1000 : 800
     keyboardRelativeLeftMargin: 6 / keyboardDesignWidth
     keyboardRelativeRightMargin: 6 / keyboardDesignWidth
     keyboardRelativeTopMargin: 6 / keyboardDesignHeight

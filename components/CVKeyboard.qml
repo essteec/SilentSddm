@@ -5,7 +5,10 @@ import QtQuick.VirtualKeyboard.Settings
 InputPanel {
     id: inputPanel
 
-    width: Math.min(loginScreen && loginScreen.width ? loginScreen.width / 2 : 800, 600) * Config.virtualKeyboardScale * Config.generalScale
+    width: (Config.virtualKeyboardLayout === "numpad" ?
+                Math.min(loginScreen && loginScreen.width ? loginScreen.width / 4 : 400, 250) :
+                Math.min(loginScreen && loginScreen.width ? loginScreen.width / 2 : 800, 600)
+            ) * Config.virtualKeyboardScale * Config.generalScale
     active: Qt.inputMethod.visible
     visible: loginScreen && loginScreen.showKeyboard && loginScreen.state !== "selectingUser" && loginScreen.state !== "authenticating"
     opacity: visible ? 1.0 : 0.0
@@ -18,7 +21,7 @@ InputPanel {
 
     Component.onCompleted: {
         VirtualKeyboardSettings.styleName = "vkeyboardStyle";
-        VirtualKeyboardSettings.layout = "symbols";
+        VirtualKeyboardSettings.layout = Config.virtualKeyboardLayout === "numpad" ? "digits" : "symbols";
     }
 
     property string pos: Config.virtualKeyboardPosition

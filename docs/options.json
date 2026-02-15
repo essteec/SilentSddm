@@ -751,10 +751,10 @@
       "category": "LoginScreen.LoginArea.PasswordInput",
       "option": "masked-character",
       "type": "string",
-      "default": "●",
+      "default": "\u25cf",
       "possible": "",
-      "desc":"Customized masked character of the password",
-      "property":"passwordMaskedCharacter"
+      "desc": "Customized masked character of the password.",
+      "property": "passwordInputMaskedCharacter"
     }
   ],
   "LoginScreen.LoginArea.LoginButton": [
@@ -1954,6 +1954,15 @@
       "possible": "QColor",
       "desc": "Color of the border of the virtual keyboard and its keys.",
       "property": "virtualKeyboardBorderColor"
+    },
+    {
+      "category": "LoginScreen.VirtualKeyboard",
+      "option": "layout",
+      "type": "string",
+      "default": "qwerty",
+      "possible": "'qwerty' | 'numpad'",
+      "desc": "Default layout of the virtual keyboard.",
+      "property": "virtualKeyboardLayout"
     }
   ],
   "Tooltips": [

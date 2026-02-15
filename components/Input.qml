@@ -15,6 +15,7 @@ Item {
     property alias text: textField.text
     property string icon: ""
     property bool enabled: true
+    property int inputMethodHints: Qt.ImhNone
 
     width: Config.passwordInputWidth * Config.generalScale
     height: Config.passwordInputHeight * Config.generalScale
@@ -22,6 +23,7 @@ Item {
     TextField {
         id: textField
         anchors.fill: parent
+        inputMethodHints: input.inputMethodHints
         color: Config.passwordInputContentColor
         enabled: input.enabled
         echoMode: input.isPassword ? TextInput.Password : TextInput.Normal

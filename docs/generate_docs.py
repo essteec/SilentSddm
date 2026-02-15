@@ -69,7 +69,7 @@ def parse_config():
 
 
 def generate_json_file(json_output):
-    jsonf = json.dumps(json_output)
+    jsonf = json.dumps(json_output, indent=2)
     with open(JSON_FILE, "w") as file:
         file.write(jsonf)
         print(f"Generated `{JSON_FILE}`")

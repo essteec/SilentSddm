@@ -175,6 +175,7 @@ Item {
                 icon: Config.getIcon("user-default")
                 placeholder: (textConstants && textConstants.userName) ? textConstants.userName : "Password"
                 isPassword: false
+                inputMethodHints: Config.virtualKeyboardLayout === "numpad" ? Qt.ImhDigitsOnly : Qt.ImhNone
                 splitBorderRadius: false
                 enabled: loginScreen.state !== "authenticating"
                 onAccepted: {
@@ -307,6 +308,7 @@ Item {
                     icon: Config.getIcon(Config.passwordInputIcon)
                     placeholder: (textConstants && textConstants.password) ? textConstants.password : "Password"
                     isPassword: true
+                    inputMethodHints: Config.virtualKeyboardLayout === "numpad" ? Qt.ImhDigitsOnly : Qt.ImhNone
                     splitBorderRadius: true
                     onAccepted: {
                         loginScreen.login();
