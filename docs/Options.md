@@ -592,7 +592,7 @@ File in `backgrounds/`
 
 
 
-</td></tr><tr><td colspan="5">&nbsp;</td></tr><tr><th align="right">Category</th><th align="left">Option</th><th>Type</th><th>Default value</th><th align="left">Possible values</th></tr><tr><td rowspan="15" align="right"><a href="#loginscreenloginareapasswordinput">[LoginScreen.LoginArea.PasswordInput]</a></td><td align="left">
+</td></tr><tr><td colspan="5">&nbsp;</td></tr><tr><th align="right">Category</th><th align="left">Option</th><th>Type</th><th>Default value</th><th align="left">Possible values</th></tr><tr><td rowspan="16" align="right"><a href="#loginscreenloginareapasswordinput">[LoginScreen.LoginArea.PasswordInput]</a></td><td align="left">
 <a href="#passwordinputwidth">width</a>
 </td>
 <td align="center">int</td>
@@ -723,6 +723,15 @@ File in `icons/`
 </td>
 <td align="center">int</td>
 <td align="center">0</td>
+<td align="left">
+
+
+
+</td></tr><tr><td align="left">
+<a href="#passwordinputmaskedcharacter">masked-character</a>
+</td>
+<td align="center">string</td>
+<td align="center">●</td>
 <td align="left">
 
 
@@ -1771,7 +1780,7 @@ File in `icons/`
 
 
 
-</td></tr><tr><td colspan="5">&nbsp;</td></tr><tr><th align="right">Category</th><th align="left">Option</th><th>Type</th><th>Default value</th><th align="left">Possible values</th></tr><tr><td rowspan="15" align="right"><a href="#loginscreenvirtualkeyboard">[LoginScreen.VirtualKeyboard]</a></td><td align="left">
+</td></tr><tr><td colspan="5">&nbsp;</td></tr><tr><th align="right">Category</th><th align="left">Option</th><th>Type</th><th>Default value</th><th align="left">Possible values</th></tr><tr><td rowspan="16" align="right"><a href="#loginscreenvirtualkeyboard">[LoginScreen.VirtualKeyboard]</a></td><td align="left">
 <a href="#virtualkeyboardscale">scale</a>
 </td>
 <td align="center">real</td>
@@ -1905,6 +1914,15 @@ File in `icons/`
 <td align="left">
 
 <a href="https://doc.qt.io/qt-6/qml-color.html#details">QColor</a>
+
+</td></tr><tr><td align="left">
+<a href="#virtualkeyboardrestrictinput">restrict-input</a>
+</td>
+<td align="center">string</td>
+<td align="center">none</td>
+<td align="left">
+
+`none`   `digits`   `formatted-numbers`   `uppercase`   `lowercase`   `dialable-characters`
 
 </td></tr><tr><td colspan="5">&nbsp;</td></tr><tr><th align="right">Category</th><th align="left">Option</th><th>Type</th><th>Default value</th><th align="left">Possible values</th></tr><tr><td rowspan="9" align="right"><a href="#tooltips">[Tooltips]</a></td><td align="left">
 <a href="#tooltipsenable">enable</a>
@@ -3804,13 +3822,15 @@ File in `icons/`
 <td>Possible values</td>
 <td>
 
+
+
 </td>
 </tr>
 </table>
 </details>
-<details name="passwordmaskedcharacter">
+<details name="passwordinputmaskedcharacter">
 <summary><strong>masked-character</strong></summary><br/>
-<p>Customized masked character of the password</p></br></br>
+<p>Customized masked character of the password.</p></br></br>
 <table>
 <tr>
 <td>Type</td></br>
@@ -3823,7 +3843,6 @@ File in `icons/`
 <tr>
 <td>Possible values</td>
 <td>
-
 
 
 
@@ -6748,6 +6767,28 @@ File in `icons/`
 <td>
 
 <a href="https://doc.qt.io/qt-6/qml-color.html#details">QColor</a>
+
+</td>
+</tr>
+</table>
+</details>
+<details name="virtualkeyboardrestrictinput">
+<summary><strong>restrict-input</strong></summary><br/>
+<p>Default layout of the virtual keyboard.</p></br></br>
+<table>
+<tr>
+<td>Type</td></br>
+<td>string</td>
+</tr>
+<tr>
+<td>Default value</td>
+<td>none</td>
+</tr>
+<tr>
+<td>Possible values</td>
+<td>
+
+`none`   `digits`   `formatted-numbers`   `uppercase`   `lowercase`   `dialable-characters`
 
 </td>
 </tr>
