@@ -243,6 +243,19 @@ QtObject {
     property string powerIcon: config.stringValue("LoginScreen.MenuArea.Power/icon") || "power.svg" // @possible:File in `icons/` @desc:Icon in the power button.
     property int powerIconSize: config.intValue("LoginScreen.MenuArea.Power/icon-size") || 16 // @desc:Size of the icon in the power button.
 
+    // [LoginScreen.MenuArea.Battery]
+    property bool batteryDisplay: config["LoginScreen.MenuArea.Battery/display"] === "false" ? false : true // @desc:Whether or not to display the battery indicator.
+    property string batteryPosition: config.stringValue("LoginScreen.MenuArea.Battery/position") // @possible:'top-left' | 'top-center' | 'top-right' | 'center-left' | 'center-right' | 'bottom-left' | 'bottom-center' | 'bottom-right' @default:bottom-right @desc:Position of the battery indicator.
+    property int batteryIndex: config.intValue("LoginScreen.MenuArea.Battery/index") // @default:4 @desc:This number is used to sort menu buttons placed in the same position.
+    property color batteryBackgroundColor: config.stringValue("LoginScreen.MenuArea.Battery/background-color") || "#FFFFFF" // @desc:Background color of the battery indicator.
+    property real batteryBackgroundOpacity: config.realValue("LoginScreen.MenuArea.Battery/background-opacity") // @possible:0.0 ≤ R ≤ 1.0 @desc:Opacity of the background of the battery indicator.
+    property real batteryActiveBackgroundOpacity: config.realValue("LoginScreen.MenuArea.Battery/active-background-opacity") // @possible:0.0 ≤ R ≤ 1.0 @desc:Opacity of the background of the battery indicator when hovered.
+    property color batteryContentColor: config.stringValue("LoginScreen.MenuArea.Battery/content-color") || "#FFFFFF" // @desc:Color of the icon and text in the battery indicator.
+    property color batteryActiveContentColor: config.stringValue("LoginScreen.MenuArea.Battery/active-content-color") || "#FFFFFF" // @desc:Color of the icon and text in the battery indicator when hovered.
+    property int batteryBorderSize: config.intValue("LoginScreen.MenuArea.Battery/border-size") // @desc:Border size of the battery indicator.
+    property string batteryIcon: config.stringValue("LoginScreen.MenuArea.Battery/icon") || "battery.svg" // @possible:File in `icons/` @desc:Icon in the battery indicator.
+    property int batteryIconSize: config.intValue("LoginScreen.MenuArea.Battery/icon-size") || 16 // @desc:Size of the icon in the battery indicator.
+
     // [LoginScreen.VirtualKeyboard]
     property real virtualKeyboardScale: config.realValue("LoginScreen.VirtualKeyboard/scale") || 1.0 // @desc:Scale of the virtual keyboard.
     property string virtualKeyboardPosition: config.stringValue("LoginScreen.VirtualKeyboard/position") || "login" // @possible: 'login' | 'top' | 'bottom' | 'left' | 'right' @desc:Initial position of the virtual keyboard. You can drag the keyboard using the middle mouse button.

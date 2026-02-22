@@ -210,6 +210,18 @@ Item {
             autoPaddingEnabled: false
         }
 
+        Battery {
+            id: batteryOverlay
+            z: 10
+            visible: Config.batteryDisplay
+            anchors {
+                top: parent.top
+                right: parent.right
+                topMargin: Config.menuAreaButtonsMarginTop
+                rightMargin: Config.menuAreaButtonsMarginRight
+            }
+        }
+
         Item {
             id: screenContainer
             anchors.fill: parent

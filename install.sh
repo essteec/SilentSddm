@@ -56,12 +56,12 @@ apply_theme () {
 
         # "InputMethod" was supposed to automatically set "QT_IM_MODULE", but it doesn't, so we manually export it.
         if ! grep -Pzq 'GreeterEnvironment=QML2_IMPORT_PATH=/usr/share/sddm/themes/silent/components/,QT_IM_MODULE=qtvirtualkeyboard' /etc/sddm.conf; then
-            echo -e "\n[General]\nGreeterEnvironment=QML2_IMPORT_PATH=/usr/share/sddm/themes/silent/components/,QT_IM_MODULE=qtvirtualkeyboard" | sudo tee -a /etc/sddm.conf
+            echo -e "\n[General]\nGreeterEnvironment=QML2_IMPORT_PATH=/usr/share/sddm/themes/silent/components/,QT_IM_MODULE=qtvirtualkeyboard,QML_XHR_ALLOW_FILE_READ=1" | sudo tee -a /etc/sddm.conf
         fi
     else
         echo -e "[Theme]\nCurrent=silent" | sudo tee -a /etc/sddm.conf
         echo -e "\n[General]\nInputMethod=qtvirtualkeyboard" | sudo tee -a /etc/sddm.conf
-        echo -e "GreeterEnvironment=QML2_IMPORT_PATH=/usr/share/sddm/themes/silent/components/,QT_IM_MODULE=qtvirtualkeyboard" | sudo tee -a /etc/sddm.conf
+        echo -e "GreeterEnvironment=QML2_IMPORT_PATH=/usr/share/sddm/themes/silent/components/,QT_IM_MODULE=qtvirtualkeyboard,QML_XHR_ALLOW_FILE_READ=1" | sudo tee -a /etc/sddm.conf
     fi
 }
 
