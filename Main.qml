@@ -144,9 +144,9 @@ Item {
             }
             onStatusChanged: {
                 if (status === Image.Error) {
-                    if (source !== "backgrounds/default.jpg" && source !== "") {
-                        source = "backgrounds/default.jpg";
-                    } else if (source === "backgrounds/default.jpg") {
+                    if (source !== "backgrounds/main/default.jpg" && source !== "") {
+                        source = "backgrounds/main/default.jpg";
+                    } else if (source === "backgrounds/main/default.jpg") {
                         // If even default fails, show color background
                         displayColor = true;
                     }
