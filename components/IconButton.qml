@@ -149,13 +149,17 @@ Item {
         cursorShape: Qt.PointingHandCursor
 
         ToolTip {
+            id: toolTipControl
             parent: mouseArea
             enabled: Config.tooltipsEnable
             property bool shouldShow: enabled && mouseArea.containsMouse && iconButton.tooltipText !== "" || enabled && iconButton.focus && iconButton.tooltipText !== ""
             visible: shouldShow
             delay: 300
+            y: -height - 10
+            x: (parent.width - width) / 2
 
             contentItem: Text {
+                id: tooltipTextElement
                 font.family: Config.tooltipsFontFamily
                 font.pixelSize: Config.tooltipsFontSize * Config.generalScale
                 text: iconButton.tooltipText
@@ -163,6 +167,8 @@ Item {
             }
 
             background: Rectangle {
+                implicitWidth: tooltipTextElement.implicitWidth + (toolTipControl.leftPadding + toolTipControl.rightPadding)
+                implicitHeight: tooltipTextElement.implicitHeight + (toolTipControl.topPadding + toolTipControl.bottomPadding)
                 color: Config.tooltipsBackgroundColor
                 opacity: Config.tooltipsBackgroundOpacity
                 border.width: 0
