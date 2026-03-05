@@ -25,6 +25,8 @@ QtObject {
     property int lockScreenBlur: config.intValue("LockScreen/blur") // @desc:Amount of blur to be applied to the background of the lock screen. 0 means no blur.
     property real lockScreenBrightness: config.realValue("LockScreen/brightness") // @possible:-1.0 ≤ R ≤ 1.0 @desc:Brightness of the background of the lock screen. 0.0 leaves unchanged, -1.0 makes it black and 1.0 white.
     property real lockScreenSaturation: config.realValue("LockScreen/saturation") // @possible:-1.0 ≤ R ≤ 1.0 @desc:Saturation of the background of the lock screen. 0.0 leaves unchanged, -1.0 makes it grayscale and 1.0 very saturated.
+    property bool lockScreenVideoMuted: config['LockScreen/video-muted'] === "false" ? false : true // @desc:Whether to mute audio when a video is used as the lock screen background. Defaults to true. Has no effect on image backgrounds.
+    property real lockScreenVideoVolume: config.realValue("LockScreen/video-volume") || 0.2 // @possible:0.0 ≤ R ≤ 1.0 @desc:Playback volume for a video lock screen background. Only applies when video-muted is false.
 
     // [LockScreen.Clock]
     property bool clockDisplay: config['LockScreen.Clock/display'] === "false" ? false : true // @desc:Whether or not to display the clock in the lock screen.
@@ -68,6 +70,8 @@ QtObject {
     property int loginScreenBlur: config.intValue("LoginScreen/blur") // @desc:Amount of blur to be applied to the background of the login screen. 0 means no blur.
     property real loginScreenBrightness: config.realValue("LoginScreen/brightness") // @possible:-1.0 ≤ R ≤ 1.0 @desc:Brightness of the background of the login screen. 0.0 leaves unchanged, -1.0 makes it black and 1.0 white.
     property real loginScreenSaturation: config.realValue("LoginScreen/saturation") // @possible:-1.0 ≤ R ≤ 1.0 @desc:Saturation of the background of the login screen. 0.0 leaves unchanged, -1.0 makes it grayscale and 1.0 very saturated.
+    property bool loginScreenVideoMuted: config['LoginScreen/video-muted'] === "false" ? false : true // @desc:Whether to mute audio when a video is used as the login screen background. Defaults to true. Has no effect on image backgrounds.
+    property real loginScreenVideoVolume: config.realValue("LoginScreen/video-volume") || 0.2 // @possible:0.0 ≤ R ≤ 1.0 @desc:Playback volume for a video login screen background. Only applies when video-muted is false.
 
     // [LoginScreen.LoginArea]
     property string loginAreaPosition: config.stringValue("LoginScreen.LoginArea/position") || "center" // @possible:'left' | 'center' | 'right' @desc:Position of the login area.

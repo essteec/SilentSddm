@@ -94,6 +94,7 @@ Item {
         y: geometry.y
         width: geometry.width
         height: geometry.height
+        property bool isPrimaryScreen: Screen.virtualX === geometry.x && Screen.virtualY === geometry.y
 
         // AnimatedImage { // `.gif`s are seg faulting with multi monitors... QT/SDDM issue?
         Image {
@@ -169,7 +170,8 @@ Item {
                 enabled: visible
                 autoPlay: false
                 loops: MediaPlayer.Infinite
-                muted: true
+                muted: !mainFrame.isPrimaryScreen || (root.state === "lockState" ? Config.lockScreenVideoMuted : Config.loginScreenVideoMuted)
+                volume: root.state === "lockState" ? Config.lockScreenVideoVolume : Config.loginScreenVideoVolume
                 fillMode: {
                     if (Config.backgroundFillMode === "stretch") {
                         return VideoOutput.Stretch;

@@ -14,16 +14,8 @@ TranslationsDirectory=translations
 QtVersion=6
 
 # ConfigFile=configs/main/default.conf
-# ConfigFile=configs/main/default-left.conf
-# ConfigFile=configs/main/default-right.conf
-
-# ConfigFile=configs/main/rose-left.conf
-# ConfigFile=configs/main/rose.conf
 # ConfigFile=configs/main/rose-right.conf
-
-# ConfigFile=configs/main/moon-left.conf
 # ConfigFile=configs/main/moon.conf
-# ConfigFile=configs/main/moon-right.conf
 
 # ConfigFile=configs/animated/rei.conf
 # ConfigFile=configs/animated/ken.conf
@@ -39,9 +31,11 @@ QtVersion=6
 # ConfigFile=configs/demon-slayer/shinobu-kocho.conf
 # ConfigFile=configs/demon-slayer/tengen-uzui.conf
 
-# ConfigFile=configs/kiss/sabrina-kiss.conf
+# ConfigFile=configs/kiss/sabrina.conf
 
-# ConfigFile=configs/oled/screen-behind.conf
+# ConfigFile=configs/kiss/zoktay.conf
+
+# ConfigFile=configs/oled/girl-behind.conf
 
 # ConfigFile=configs/rain/raindrop.conf
 # ConfigFile=configs/rain/raindrops.conf
@@ -58,10 +52,10 @@ QtVersion=6
 # ConfigFile=configs/other/everforest.conf
 # ConfigFile=configs/other/nord.conf
 
-# ConfigFile=configs/catppuccin/catppuccin-latte.conf
-# ConfigFile=configs/catppuccin/catppuccin-frappe.conf
-# ConfigFile=configs/catppuccin/catppuccin-macchiato.conf
-# ConfigFile=configs/catppuccin/catppuccin-mocha.conf
+# ConfigFile=configs/catppuccin/latte.conf
+# ConfigFile=configs/catppuccin/frappe.conf
+# ConfigFile=configs/catppuccin/macchiato.conf
+# ConfigFile=configs/catppuccin/mocha.conf
 
 # this file will be a symlink to one of the conf files in the configs folder, and we will change the symlink randomly with a script, for example we can have a file called groups.conf that has the following format:
 ConfigFile=configs/random.conf
