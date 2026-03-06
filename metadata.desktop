@@ -30,11 +30,10 @@ QtVersion=6
 # ConfigFile=configs/demon-slayer/obanai-iguro.conf
 # ConfigFile=configs/demon-slayer/shinobu-kocho.conf
 # ConfigFile=configs/demon-slayer/tengen-uzui.conf
+# ConfigFile=configs/demon-slayer/gyomei-himejima.conf
 
 # ConfigFile=configs/kiss/sabrina.conf
-
 # ConfigFile=configs/kiss/zoktay.conf
-
 # ConfigFile=configs/oled/girl-behind.conf
 
 # ConfigFile=configs/rain/raindrop.conf
@@ -43,6 +42,7 @@ QtVersion=6
 # ConfigFile=configs/rain/rain-city.conf
 
 # ConfigFile=configs/aot/levi.conf
+# ConfigFile=configs/aot/eren-mikasa.conf
 
 # ConfigFile=configs/knight/knight-silence.conf
 # ConfigFile=configs/knight/knight-autumn.conf
@@ -51,6 +51,8 @@ QtVersion=6
 
 # ConfigFile=configs/other/everforest.conf
 # ConfigFile=configs/other/nord.conf
+
+# ConfigFile=configs/other/chainsaw-man.conf
 
 # ConfigFile=configs/catppuccin/latte.conf
 # ConfigFile=configs/catppuccin/frappe.conf
