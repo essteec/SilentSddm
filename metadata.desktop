@@ -54,6 +54,9 @@ QtVersion=6
 
 # ConfigFile=configs/other/chainsaw-man.conf
 
+# ConfigFile=configs/nfs/mw-bmw.conf
+# ConfigFile=configs/nfs/u2-nissan.conf
+
 # ConfigFile=configs/catppuccin/latte.conf
 # ConfigFile=configs/catppuccin/frappe.conf
 # ConfigFile=configs/catppuccin/macchiato.conf
