@@ -138,18 +138,25 @@ Rectangle {
         onMouseYChanged: updateHover()
 
         ToolTip {
+            id: toolTipControl
             parent: mouseArea
             enabled: Config.tooltipsEnable && !Config.tooltipsDisableUser
             property bool shouldShow: enabled && avatar.showTooltip || (enabled && mouseArea.isCursorInsideAvatar() && avatar.tooltipText !== "")
             visible: shouldShow
             delay: 300
+            y: -height - 10
+            x: (parent.width - width) / 2
+            
             contentItem: Text {
+                id: tooltipTextElement
                 font.family: Config.tooltipsFontFamily
                 font.pixelSize: Config.tooltipsFontSize * Config.generalScale
                 text: avatar.tooltipText
                 color: Config.tooltipsContentColor
             }
             background: Rectangle {
+                implicitWidth: tooltipTextElement.implicitWidth + (toolTipControl.leftPadding + toolTipControl.rightPadding)
+                implicitHeight: tooltipTextElement.implicitHeight + (toolTipControl.topPadding + toolTipControl.bottomPadding)
                 color: Config.tooltipsBackgroundColor
                 opacity: Config.tooltipsBackgroundOpacity
                 border.width: 0
