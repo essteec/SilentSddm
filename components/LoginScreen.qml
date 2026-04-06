@@ -31,6 +31,19 @@ Item {
 
     property bool foundUsers: userModel.count > 0
 
+    property int computedInputMethodHintsOnly: {
+        switch (Config.virtualKeyboardRestrictInput) {
+            case "digits": return Qt.ImhDigitsOnly;
+            case "formatted-numbers": return Qt.ImhFormattedNumbersOnly;
+            case "uppercase": return Qt.ImhUppercaseOnly;
+            case "lowercase": return Qt.ImhLowercaseOnly;
+            case "dialable-characters": return Qt.ImhDialableCharactersOnly;
+            case "email-characters": return Qt.ImhEmailCharactersOnly;
+            case "url-characters": return Qt.ImhUrlCharactersOnly;
+            default: return Qt.ImhNone;
+        }
+    }
+
     // Login info
     property int sessionIndex: 0
     property int userIndex: 0
@@ -175,6 +188,7 @@ Item {
                 icon: Config.getIcon("user-default")
                 placeholder: (textConstants && textConstants.userName) ? textConstants.userName : "Password"
                 isPassword: false
+                inputMethodHints: loginScreen.computedInputMethodHintsOnly
                 splitBorderRadius: false
                 enabled: loginScreen.state !== "authenticating"
                 onAccepted: {
@@ -307,6 +321,7 @@ Item {
                     icon: Config.getIcon(Config.passwordInputIcon)
                     placeholder: (textConstants && textConstants.password) ? textConstants.password : "Password"
                     isPassword: true
+                    inputMethodHints: loginScreen.computedInputMethodHintsOnly
                     splitBorderRadius: true
                     onAccepted: {
                         loginScreen.login();
