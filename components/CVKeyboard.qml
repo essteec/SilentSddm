@@ -5,15 +5,20 @@ import QtQuick.VirtualKeyboard.Settings
 InputPanel {
     id: inputPanel
 
-    width: Math.min(loginScreen && loginScreen.width ? loginScreen.width / 2 : 800, 600) * Config.virtualKeyboardScale * Config.generalScale
+	width: Math.min(loginScreen && loginScreen.width ? loginScreen.width / 2 : 800, 600) * Config.virtualKeyboardScale * Config.generalScale
     active: Qt.inputMethod.visible
     visible: loginScreen && loginScreen.showKeyboard && loginScreen.state !== "selectingUser" && loginScreen.state !== "authenticating"
     opacity: visible ? 1.0 : 0.0
     externalLanguageSwitchEnabled: true
     onExternalLanguageSwitch: {
-        if (loginScreen && loginScreen.toggleLayoutPopup) {
-            loginScreen.toggleLayoutPopup();
-        }
+		if (Config.virtualKeyboardRestrictInput === "digits") {
+			// Switch the virtual keyboard layout's input method back to 'none' instead of closing it
+			loginScreen.computedInputMethodHintsOnly = Qt.ImhNone;
+		} else {
+        	if (loginScreen && loginScreen.toggleLayoutPopup) {
+				loginScreen.toggleLayoutPopup();
+			}
+		}
     }
 
     Component.onCompleted: {

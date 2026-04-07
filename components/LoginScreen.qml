@@ -32,16 +32,11 @@ Item {
     property bool foundUsers: userModel.count > 0
 
     property int computedInputMethodHintsOnly: {
-        switch (Config.virtualKeyboardRestrictInput) {
-            case "digits": return Qt.ImhDigitsOnly;
-            case "formatted-numbers": return Qt.ImhFormattedNumbersOnly;
-            case "uppercase": return Qt.ImhUppercaseOnly;
-            case "lowercase": return Qt.ImhLowercaseOnly;
-            case "dialable-characters": return Qt.ImhDialableCharactersOnly;
-            case "email-characters": return Qt.ImhEmailCharactersOnly;
-            case "url-characters": return Qt.ImhUrlCharactersOnly;
-            default: return Qt.ImhNone;
-        }
+		if(Config.virtualKeyboardRestrictInput === "digits") {
+			return Qt.ImhDigitsOnly;
+		} else {
+			return Qt.ImhNone;
+		}
     }
 
     // Login info
