@@ -1922,7 +1922,7 @@ File in `icons/`
 <td align="center">none</td>
 <td align="left">
 
-`none`   `digits`   `formatted-numbers`   `uppercase`   `lowercase`   `dialable-characters`
+`none`   `digits`
 
 </td></tr><tr><td colspan="5">&nbsp;</td></tr><tr><th align="right">Category</th><th align="left">Option</th><th>Type</th><th>Default value</th><th align="left">Possible values</th></tr><tr><td rowspan="9" align="right"><a href="#tooltips">[Tooltips]</a></td><td align="left">
 <a href="#tooltipsenable">enable</a>
@@ -6774,7 +6774,7 @@ File in `icons/`
 </details>
 <details name="virtualkeyboardrestrictinput">
 <summary><strong>restrict-input</strong></summary><br/>
-<p>Default layout of the virtual keyboard.</p></br></br>
+<p>Default layout of the virtual keyboard.<br/><br/>**Warning!** Make sure not to set this option to `digits` if you got a user whose password contains letters/symbols.</p></br></br>
 <table>
 <tr>
 <td>Type</td></br>
@@ -6788,7 +6788,7 @@ File in `icons/`
 <td>Possible values</td>
 <td>
 
-`none`   `digits`   `formatted-numbers`   `uppercase`   `lowercase`   `dialable-characters`
+`none`   `digits`
 
 </td>
 </tr>
