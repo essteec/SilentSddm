@@ -101,6 +101,10 @@ KeyboardStyle {
         }
         radius: 10
 
+		// Little hack to "fix" the background for the `digits` input method.
+		// I need to write a new style, or hopefully find a better alternative to `qtvirtualkeyboard`.
+		visible: Config.virtualKeyboardRestrictInput !== "digits"
+
         Rectangle {
             z: parent.z - 1
             anchors.fill: parent
