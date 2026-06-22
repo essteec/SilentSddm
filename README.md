@@ -1,9 +1,6 @@
 > [!WARNING]
 > This theme requires **SDDM v0.21.0 or newer**. Make sure your distro provides the correct version before installing.
 
-> [!IMPORTANT]
-> Want SilentSDDM to also be available as a lockscreen service? Take a look into [this discussion](https://github.com/uiriansan/SilentSDDM/discussions/78).
-
 https://github.com/user-attachments/assets/dd63c526-34d6-45ec-8a7d-5c29bf08c702
 
 # Presets
@@ -81,7 +78,7 @@ https://github.com/user-attachments/assets/c90799f7-52bb-4c90-90db-4890281991c1
 - qt6-imageformats
 
 # Installation
-[`Install script`](#Install-script) [`AUR packages for Arch`](#AUR-packages-for-arch) [`GURU package for Gentoo`](#GURU-package-for-gentoo) [`NixOS flake`](#NixOS-flake) [`Manual installation`](#Manual-installation) [`Pling/KDE Store`](#plingkde-store)
+[`Install script`](#Install-script) [`AUR packages`](#AUR-packages-for-arch) [`GURU package`](#GURU-package-for-gentoo) [`NixOS flake`](#NixOS-flake) [`Manual installation`](#Manual-installation) [`Pling/KDE Store`](#plingkde-store)
 
 ## Install script
 Just clone the repo and run the script:
