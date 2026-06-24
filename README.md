@@ -102,8 +102,12 @@ yay -S sddm-silent-theme
 yay -S sddm-silent-theme-git
 ```
 Then, replace the current theme and set the environment variables in `/etc/sddm.conf`:
-```bash
+```
 sudoedit /etc/sddm.conf
+```
+
+```bash
+
 
     # Make sure these options are correct:
     [General]
