@@ -109,13 +109,13 @@ sudoedit /etc/sddm.conf
 ```bash
 
 
-    # Make sure these options are correct:
-    [General]
-    InputMethod=qtvirtualkeyboard
-    GreeterEnvironment=QML2_IMPORT_PATH=/usr/share/sddm/themes/silent/components/,QT_IM_MODULE=qtvirtualkeyboard
+# Make sure these options are correct:
+[General]
+InputMethod=qtvirtualkeyboard
+GreeterEnvironment=QML2_IMPORT_PATH=/usr/share/sddm/themes/silent/components/,QT_IM_MODULE=qtvirtualkeyboard
 
-    [Theme]
-    Current=silent
+[Theme]
+Current=silent
 ```
 Finally, test the theme to make sure everything is working:
 ```bash
