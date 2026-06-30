@@ -26,3 +26,6 @@ ConfigFile=configs/default.conf
 # ConfigFile=configs/catppuccin-mocha.conf
 # ConfigFile=configs/nord.conf
 # ConfigFile=configs/gruvbox.conf
+# ConfigFile=configs/eldritch-cthulhu.conf
+# ConfigFile=configs/eldritch-abyss.conf
+# ConfigFile=configs/eldritch-dusk.conf
