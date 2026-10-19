@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Window
 import QtQuick.Controls
 import QtQuick.Layouts
 import SddmComponents
@@ -30,6 +31,14 @@ Item {
     property bool showKeyboard: !Config.virtualKeyboardStartHidden
 
     property bool foundUsers: userModel.count > 0
+
+    property int computedInputMethodHintsOnly: {
+		if(Config.virtualKeyboardRestrictInput === "digits") {
+			return Qt.ImhDigitsOnly;
+		} else {
+			return Qt.ImhNone;
+		}
+    }
 
     // Login info
     property int sessionIndex: 0
@@ -63,7 +72,6 @@ Item {
         target: sddm
     }
 
-    // FIX: Critical connections memory leak prevention?
     Component.onDestruction: {
         if (typeof connections !== 'undefined') {
             connections.target = null;
@@ -139,7 +147,7 @@ Item {
 
         Item {
             id: noUsersLoginArea
-            width: Config.passwordInputWidth * Config.generalScale + (loginButton.visible ? Config.passwordInputHeight * Config.generalScale + Config.loginButtonMarginLeft : 0)
+            width: Config.passwordInputWidth * Config.automaticScale(Screen.devicePixelRatio) + (loginButton.visible ? Config.passwordInputHeight * Config.automaticScale(Screen.devicePixelRatio) + Config.loginButtonMarginLeft : 0)
             height: childrenRect.height
             visible: false
 
@@ -161,7 +169,7 @@ Item {
                     }
                 }
                 color: Config.warningMessageErrorColor
-                font.pixelSize: Math.max(8, Config.passwordInputFontSize * Config.generalScale)
+                font.pixelSize: Math.max(8, Config.passwordInputFontSize * Config.automaticScale(Screen.devicePixelRatio))
                 font.family: Config.passwordInputFontFamily
             }
 
@@ -175,6 +183,7 @@ Item {
                 icon: Config.getIcon("user-default")
                 placeholder: (textConstants && textConstants.userName) ? textConstants.userName : "Password"
                 isPassword: false
+                inputMethodHints: loginScreen.computedInputMethodHintsOnly
                 splitBorderRadius: false
                 enabled: loginScreen.state !== "authenticating"
                 onAccepted: {
@@ -196,13 +205,13 @@ Item {
 
         UserSelector {
             id: userSelector
-            listUsers: loginScreen.state === "selectingUser"
+            listUsers: loginScreen.state === "selectingUser" || Config.avatarAlwaysActive
             enabled: loginScreen.state !== "authenticating"
             visible: true
             activeFocusOnTab: true
             orientation: Config.loginAreaPosition === "left" || Config.loginAreaPosition === "right" ? "vertical" : "horizontal"
-            width: orientation === "horizontal" ? loginScreen.width - Config.loginAreaMargin * 2 : (Config.avatarActiveSize * Config.generalScale)
-            height: orientation === "horizontal" ? (Config.avatarActiveSize * Config.generalScale) : loginScreen.height - Config.loginAreaMargin * 2
+            width: orientation === "horizontal" ? loginScreen.width - Config.loginAreaMargin * 2 : (Config.avatarActiveSize * Config.automaticScale(Screen.devicePixelRatio))
+            height: orientation === "horizontal" ? (Config.avatarActiveSize * Config.automaticScale(Screen.devicePixelRatio)) : loginScreen.height - Config.loginAreaMargin * 2
             onOpenUserList: {
                 safeStateChange("selectingUser");
             }
@@ -217,6 +226,17 @@ Item {
                     loginScreen.userRealName = realName;
                     loginScreen.userIcon = icon;
                     loginScreen.userNeedsPassword = needsPassword;
+
+                    const prefSession = Config.getUserOption(name, "preferred-session");
+
+                    if (prefSession) {
+                        for (var i = 0; i < sessionModel.count; ++i) {
+                            const sessionName = sessionModel.data(sessionModel.index(i, 0), 260).toLowerCase();
+                            if (sessionName === prefSession) {
+                                menuArea.customSessionIndex = i;
+                            }
+                        }
+                    }
                 }
             }
 
@@ -264,7 +284,7 @@ Item {
                 id: activeUserName
                 font.family: Config.usernameFontFamily
                 font.weight: Config.usernameFontWeight
-                font.pixelSize: Config.usernameFontSize * Config.generalScale
+                font.pixelSize: Config.usernameFontSize * Config.automaticScale(Screen.devicePixelRatio)
                 color: Config.usernameColor
                 text: loginScreen.userRealName || loginScreen.userName || ""
                 visible: loginScreen.foundUsers
@@ -283,7 +303,7 @@ Item {
 
             RowLayout {
                 id: loginArea
-                height: Config.passwordInputHeight * Config.generalScale
+                height: Config.passwordInputHeight * Config.automaticScale(Screen.devicePixelRatio)
                 spacing: Config.loginButtonMarginLeft
                 visible: loginScreen.state !== "authenticating"
 
@@ -307,6 +327,7 @@ Item {
                     icon: Config.getIcon(Config.passwordInputIcon)
                     placeholder: (textConstants && textConstants.password) ? textConstants.password : "Password"
                     isPassword: true
+                    inputMethodHints: loginScreen.computedInputMethodHintsOnly
                     splitBorderRadius: true
                     onAccepted: {
                         loginScreen.login();
@@ -373,7 +394,7 @@ Item {
             Text {
                 id: loginMessage
                 property bool capslockWarning: false
-                font.pixelSize: Config.warningMessageFontSize * Config.generalScale
+                font.pixelSize: Config.warningMessageFontSize * Config.automaticScale(Screen.devicePixelRatio)
                 font.family: Config.warningMessageFontFamily
                 font.weight: Config.warningMessageFontWeight
                 color: Config.warningMessageNormalColor
@@ -424,7 +445,9 @@ Item {
         }
     }
 
-    MenuArea {}
+    MenuArea {
+        id: menuArea
+    }
     CVKeyboard {}
 
     Keys.onPressed: function (event) {
@@ -449,12 +472,12 @@ Item {
         anchors.fill: parent
         hoverEnabled: true
         onClicked: {
-            if (loginScreen.state === "selectingUser") {
+            if (loginScreen.state === "selectingUser" && !Config.avatarAlwaysActive) {
                 safeStateChange("normal");
             }
         }
         onWheel: event => {
-            if (loginScreen.state === "selectingUser") {
+            if (loginScreen.state === "selectingUser" || Config.avatarAlwaysActive) {
                 if (event.angleDelta.y < 0) {
                     userSelector.nextUser();
                 } else {

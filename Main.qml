@@ -89,12 +89,19 @@ Item {
 
     Item {
         id: mainFrame
+
         property variant geometry: screenModel.geometry(screenModel.primary)
+        
         x: geometry.x
         y: geometry.y
         width: geometry.width
         height: geometry.height
         property bool isPrimaryScreen: Screen.virtualX === geometry.x && Screen.virtualY === geometry.y
+        // x: geometry.x
+        // y: geometry.y
+        // width: geometry.width
+        // height: geometry.height
+		anchors.fill: parent
 
         // AnimatedImage { // `.gif`s are seg faulting with multi monitors... QT/SDDM issue?
         Image {
@@ -184,7 +191,7 @@ Item {
 
                 onSourceChanged: {
                     if (source && source.toString().length > 0) {
-                        backgroundVideo.play();
+                        Qt.callLater(backgroundVideo.play);
                     }
                 }
                 onErrorOccurred: function (error) {
@@ -235,7 +242,15 @@ Item {
                 anchors.fill: parent
                 focus: root.state === "lockState"
                 enabled: root.state === "lockState"
-                onLoginRequested: {
+                onLoginRequested: (key_text, shift) => {
+                    if (Config.lockScreenIgnoreShift && shift)
+                        return;
+
+                    if (Config.lockScreenInputKeystroke && key_text && key_text.length === 1) {
+                        // Ignore enter, backspace, tab, delete and other escape sequences:
+                        if (!["\b", "\n", "\r", "\t"].some(es => key_text.includes(es)) && key_text.charCodeAt(0) !== 127)
+                            loginScreen.password.text = key_text;
+                    }
                     root.state = "loginState";
                     loginScreen.resetFocus();
                 }

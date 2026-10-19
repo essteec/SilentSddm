@@ -8,8 +8,12 @@ import QtQuick
 */
 QtObject {
     // [General]
-    property real generalScale: config.realValue("scale") || 1.0 // @desc:Overall scale of the UI. This option can cause the UI to break, so it is recommended to use the individual width/height/size options instead.
+    property real generalScale: config.realValue("scale") || 1.0 // @desc:Overall UI scale multiplier applied after Qt's automatic per-display high-DPI scale. This option can cause the UI to break, so it is recommended to use the individual width/height/size options instead.
     property bool enableAnimations: config['enable-animations'] === "false" ? false : true // @desc:Enable or disable all animations.
+
+    function automaticScale(devicePixelRatio) {
+        return generalScale * devicePixelRatio;
+    }
     property string animatedBackgroundPlaceholder: config.stringValue("animated-background-placeholder") // @possible:File in `backgrounds/` @desc:An image file to be used as a placeholder for the animated background while it loads.
     property string backgroundFillMode: config.stringValue("background-fill-mode") || "fill" // @possible:'fill' | 'fit' | 'stretch' @desc:Fill mode for <a href="#lockscreenbackground">LockScreen/background</a> and <a href="#loginscreenbackground">LoginScreen/background</a>.<br/><table><tr><th>Value</th><th>QML equivalent</th><th>Description</th></tr><tr><td>fit</td><td><a href="https://doc.qt.io/qt-6/qml-qtquick-image.html#fillMode-prop">Image.PreserveAspectFit</a> and <a href="https://doc.qt.io/qt-6/qml-qtmultimedia-video.html#fillMode-prop">VideoOutput.PreserveAspectFit</a></td><td>The image/video is scaled uniformly to fit without cropping.</td></tr><tr><td>fill</td><td><a href="https://doc.qt.io/qt-6/qml-qtquick-image.html#fillMode-prop">Image.PreserveAspectCrop</a> and <a href="https://doc.qt.io/qt-6/qml-qtmultimedia-video.html#fillMode-prop">VideoOutput.PreserveAspectCrop</a></td><td>The image/video is scaled uniformly to fill, cropping if necessary.</td></tr><tr><td>stretch</td><td><a href="https://doc.qt.io/qt-6/qml-qtquick-image.html#fillMode-prop">Image.Stretch</a> and <a href="https://doc.qt.io/qt-6/qml-qtmultimedia-video.html#fillMode-prop">VideoOutput.Stretch</a></td><td>The image/video is scaled to fit, stretching if necessary.</td></tr></table>
 
@@ -27,6 +31,8 @@ QtObject {
     property real lockScreenSaturation: config.realValue("LockScreen/saturation") // @possible:-1.0 ≤ R ≤ 1.0 @desc:Saturation of the background of the lock screen. 0.0 leaves unchanged, -1.0 makes it grayscale and 1.0 very saturated.
     property bool lockScreenVideoMuted: config['LockScreen/video-muted'] === "false" ? false : true // @desc:Whether to mute audio when a video is used as the lock screen background. Defaults to true. Has no effect on image backgrounds.
     property real lockScreenVideoVolume: config.realValue("LockScreen/video-volume") || 0.2 // @possible:0.0 ≤ R ≤ 1.0 @desc:Playback volume for a video lock screen background. Only applies when video-muted is false.
+    property bool lockScreenInputKeystroke: config.boolValue('LockScreen/input-keystroke') // @desc:If `true`, the key press used to unlock the screen will be registered in the password input.
+    property bool lockScreenIgnoreShift: config.boolValue('LockScreen/ignore-shift-key') // @desc:If enabled, the [shift] key will not unlock the screen. Useful with `input-keystroke` set to `true`, if your password's first character is uppercase or a symbol.
 
     // [LockScreen.Clock]
     property bool clockDisplay: config['LockScreen.Clock/display'] === "false" ? false : true // @desc:Whether or not to display the clock in the lock screen.
@@ -87,6 +93,7 @@ QtObject {
     property int avatarInactiveBorderSize: config.intValue("LoginScreen.LoginArea.Avatar/inactive-border-size") // @desc:Border size of the non-selected avatars.
     property color avatarActiveBorderColor: config.stringValue("LoginScreen.LoginArea.Avatar/active-border-color") || "#FFFFFF" // @desc:Border color of the selected user's avatar.
     property color avatarInactiveBorderColor: config.stringValue("LoginScreen.LoginArea.Avatar/inactive-border-color") || "#FFFFFF" // @desc:Border color of the non-selected avatars.
+    property bool avatarAlwaysActive: config['LoginScreen.LoginArea.Avatar/always-active'] === "true" ? true : false // @desc:Whether or not to always show the user selector. @default:false
 
     // [LoginScreen.LoginArea.Username]
     property string usernameFontFamily: config.stringValue("LoginScreen.LoginArea.Username/font-family") || "RedHatDisplay" // @desc:Font family used for the username.
@@ -276,6 +283,7 @@ QtObject {
     property color virtualKeyboardPrimaryColor: config.stringValue("LoginScreen.VirtualKeyboard/primary-color") || "#000000" // @desc:Color of the icon/text in special keys when they're active.
     property int virtualKeyboardBorderSize: config.intValue("LoginScreen.VirtualKeyboard/border-size") // @desc:Border size of the virtual keyboard and its keys.
     property color virtualKeyboardBorderColor: config.stringValue("LoginScreen.VirtualKeyboard/border-color") || "#000000" // @desc:Color of the border of the virtual keyboard and its keys.
+    property string virtualKeyboardRestrictInput: config.stringValue("LoginScreen.VirtualKeyboard/restrict-input") || "none" // @possible: 'none' | 'digits' @desc: Default layout of the virtual keyboard.<br/><br/>**Warning!** Make sure not to set this option to `digits` if you got a user whose password contains letters/symbols.
 
     // [Tooltips]
     property bool tooltipsEnable: config['Tooltips/enable'] === "false" ? false : true // @desc:Whether or not to show tooltips when hovering over buttons.
@@ -287,6 +295,40 @@ QtObject {
     property int tooltipsBorderRadius: config.intValue("Tooltips/border-radius") || 5 // @desc:Border radius of the tooltips.
     property bool tooltipsDisableUser: config.boolValue("Tooltips/disable-user") // @desc:If false, disables only the tooltip for the user selector.
     property bool tooltipsDisableLoginButton: config.boolValue("Tooltips/disable-login-button") // @desc:If false, disabled only the tooltip for the login button.
+
+    // [User.*]
+    property var usersOptions: ({
+        // @UserOption:preferred-session @type:string @desc:Set the name of the preferred session for this user. The session will be selected automatically when the user is changed.<br/><strong>Example:</strong><br/>preferred-session = "Hyprland (uwsm-managed)"
+    })
+
+    Component.onCompleted: {
+        // Parse users options:
+        for (const header of Object.keys(config)) {
+            if (header.startsWith("User.")) {
+                const usernameIndex = header.indexOf(".") + 1;
+                const optionIndex = header.indexOf("/") + 1;
+                
+                const username = header.slice(usernameIndex, optionIndex - 1);
+                const option = header.substring(optionIndex).trim();
+
+                if (!usersOptions[username])
+                    usersOptions[username] = {};
+
+                usersOptions[username][option] = config[header].toLowerCase();
+            }
+        }
+    }
+
+    function getUserOption(username, option) {
+        if (username in usersOptions) {
+            if (option in usersOptions[username]) {
+                return usersOptions[username][option];
+            }
+        }
+        return null;
+    }
+
+    // - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
 
     function sortMenuButtons() {
         var menus = [];

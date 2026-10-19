@@ -1,9 +1,6 @@
 > [!WARNING]
 > This theme requires **SDDM v0.21.0 or newer**. Make sure your distro provides the correct version before installing.
 
-> [!IMPORTANT]
-> Want SilentSDDM to also be available as a lockscreen service? Take a look into [this discussion](https://github.com/uiriansan/SilentSDDM/discussions/78).
-
 https://github.com/user-attachments/assets/dd63c526-34d6-45ec-8a7d-5c29bf08c702
 
 # Presets
@@ -38,10 +35,7 @@ https://github.com/user-attachments/assets/c90799f7-52bb-4c90-90db-4890281991c1
 
 <details>
   <summary>configs/everforest.conf</summary>
-
-<img width="1920" height="1080" alt="everforest" src="https://github.com/user-attachments/assets/36d64bf2-b05e-44cf-8bcc-f055381b216f" />
-
-
+<img src="https://github.com/uiriansan/SilentSDDM/blob/main/docs/previews/everforest.png" width="100%" />
 </details>
 
 <details>
@@ -78,9 +72,10 @@ https://github.com/user-attachments/assets/c90799f7-52bb-4c90-90db-4890281991c1
 - qt6-svg;
 - qt6-virtualkeyboard
 - qt6-multimedia
+- qt6-imageformats
 
 # Installation
-[`Install script`](#Install-script) [`AUR packages for Arch`](#AUR-packages-for-arch) [`NixOS flake`](#NixOS-flake) [`Manual installation`](#Manual-installation) [`Pling/KDE Store`](#plingkde-store)
+[`Install script`](#Install-script) [`AUR packages`](#AUR-packages-for-arch) [`GURU package`](#GURU-package-for-gentoo) [`NixOS flake`](#NixOS-flake) [`Manual installation`](#Manual-installation) [`Pling/KDE Store`](#plingkde-store)
 
 ## Install script
 Just clone the repo and run the script:
@@ -104,16 +99,20 @@ yay -S sddm-silent-theme
 yay -S sddm-silent-theme-git
 ```
 Then, replace the current theme and set the environment variables in `/etc/sddm.conf`:
-```bash
+```
 sudoedit /etc/sddm.conf
+```
 
-    # Make sure these options are correct:
-    [General]
-    InputMethod=qtvirtualkeyboard
-    GreeterEnvironment=QML2_IMPORT_PATH=/usr/share/sddm/themes/silent/components/,QT_IM_MODULE=qtvirtualkeyboard
+```bash
 
-    [Theme]
-    Current=silent
+
+# Make sure these options are correct:
+[General]
+InputMethod=qtvirtualkeyboard
+GreeterEnvironment=QML2_IMPORT_PATH=/usr/share/sddm/themes/silent/components/,QT_IM_MODULE=qtvirtualkeyboard
+
+[Theme]
+Current=silent
 ```
 Finally, test the theme to make sure everything is working:
 ```bash
@@ -123,6 +122,37 @@ cd /usr/share/sddm/themes/silent/
 > [!IMPORTANT]
 > Refer to the [snippets page](https://github.com/uiriansan/SilentSDDM/wiki/Snippets) if something goes wrong and [open an issue](https://github.com/uiriansan/SilentSDDM/issues/new/choose) if you don't find the solution there.
 
+## GURU package for Gentoo
+If you run Gentoo linux, consider installing the GURU package
+
+1. Enable the GURU repository
+```bash
+emerge -av eselect-repository
+eselect repository enable guru
+emaint sync -r guru
+```
+
+2. Unmask the required packages. Add this to your packages.accept_keywords:
+```
+# for the git version use
+# x11-misc/silent-sddm-theme **
+x11-misc/silent-sddm-theme ~amd64
+media-fonts/redhat ~amd64
+```
+
+3. Install SilentSDDM
+```bash
+emerge -av x11-misc/silent-sddm-theme
+```
+
+4. Add the following to /etc/sddm.conf and restart SDDM
+```
+[General]
+InputMethod=qtvirtualkeyboard
+GreeterEnvironment=QML2_IMPORT_PATH=/usr/share/sddm/themes/silent/components/,QT_IM_MODULE=qtvirtualkeyboard
+[Theme]
+Current=silent
+```
 
 ## NixOS flake
 For NixOS with flakes enabled, first include this flake into your flake inputs:
@@ -182,25 +212,25 @@ nix run .#test
 #### Arch Linux
 
 ```bash
-sudo pacman -S --needed sddm qt6-svg qt6-virtualkeyboard qt6-multimedia-ffmpeg
+sudo pacman -S --needed sddm qt6-svg qt6-virtualkeyboard qt6-multimedia-ffmpeg qt6-imageformats
 ```
 
 #### Void Linux
 
 ```bash
-sudo xbps-install sddm qt6-svg qt6-virtualkeyboard qt6-multimedia
+sudo xbps-install sddm qt6-svg qt6-virtualkeyboard qt6-multimedia qt6-imageformats
 ```
 
 #### Fedora
 
 ```bash
-sudo dnf install sddm qt6-qtsvg qt6-qtvirtualkeyboard qt6-qtmultimedia
+sudo dnf install sddm qt6-qtsvg qt6-qtvirtualkeyboard qt6-qtmultimedia qt6-qtimageformats
 ```
 
 #### OpenSUSE
 
 ```bash
-sudo zypper install sddm-qt6 libQt6Svg6 qt6-virtualkeyboard qt6-virtualkeyboard-imports qt6-multimedia qt6-multimedia-imports
+sudo zypper install sddm-qt6 libQt6Svg6 qt6-virtualkeyboard qt6-virtualkeyboard-imports qt6-multimedia qt6-multimedia-imports qt6-imageformats
 ```
 
 ### 2. Clone this repo:
@@ -233,14 +263,16 @@ sudo cp -r /usr/share/sddm/themes/silent/fonts/* /usr/share/fonts/
 ### 6. Replace the current theme and set the environment variables in `/etc/sddm.conf`:
 ```bash
 sudoedit /etc/sddm.conf
+```
 
-    # Make sure these options are correct:
-    [General]
-    InputMethod=qtvirtualkeyboard
-    GreeterEnvironment=QML2_IMPORT_PATH=/usr/share/sddm/themes/silent/components/,QT_IM_MODULE=qtvirtualkeyboard
+```bash
+# Make sure these options are correct:
+[General]
+InputMethod=qtvirtualkeyboard
+GreeterEnvironment=QML2_IMPORT_PATH=/usr/share/sddm/themes/silent/components/,QT_IM_MODULE=qtvirtualkeyboard
 
-    [Theme]
-    Current=silent
+[Theme]
+Current=silent
 ```
 
 ## Pling/KDE Store

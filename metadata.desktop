@@ -5,7 +5,7 @@ Name=Silent
 Type=sddm-theme
 Description=A very customizable SDDM theme that actually looks good.
 License=GPL-3.0-or-later
-Version=1.4.0
+Version=1.5.0
 Theme-Id=silent
 Theme-API=2.0
 MainScript=Main.qml
@@ -14,6 +14,14 @@ TranslationsDirectory=translations
 QtVersion=6
 
 # ConfigFile=configs/main/default.conf
+# ConfigFile=default-config/default-left.conf
+# ConfigFile=default-config/default-right.conf
+
+# ConfigFile=configs/gruvbox.conf
+# ConfigFile=configs/eldritch/cthulhu.conf
+# ConfigFile=configs/eldritch/abyss.conf
+# ConfigFile=configs/eldritch/dusk.conf
+
 # ConfigFile=configs/main/rose-right.conf
 # ConfigFile=configs/main/moon.conf
 

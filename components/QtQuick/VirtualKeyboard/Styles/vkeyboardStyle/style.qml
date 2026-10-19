@@ -86,7 +86,7 @@ KeyboardStyle {
         }
     }
 
-    keyboardDesignWidth: 2560
+	keyboardDesignWidth: 2560
     keyboardDesignHeight: 800
     keyboardRelativeLeftMargin: 6 / keyboardDesignWidth
     keyboardRelativeRightMargin: 6 / keyboardDesignWidth
@@ -100,6 +100,10 @@ KeyboardStyle {
             color: Config.virtualKeyboardBorderColor
         }
         radius: 10
+
+		// Little hack to "fix" the background for the `digits` input method.
+		// I need to write a new style, or hopefully find a better alternative to `qtvirtualkeyboard`.
+		visible: Config.virtualKeyboardRestrictInput !== "digits"
 
         Rectangle {
             z: parent.z - 1

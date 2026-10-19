@@ -1,4 +1,5 @@
 import QtQuick
+import QtQuick.Window
 import QtQuick.Controls
 import SddmComponents
 
@@ -29,7 +30,7 @@ Item {
         boundsBehavior: Flickable.StopAtBounds
 
         // Center the active avatar
-        preferredHighlightBegin: selector.orientation === "horizontal" ? (width - Config.avatarActiveSize * Config.generalScale) / 2 : (height - Config.avatarActiveSize * Config.generalScale) / 2
+        preferredHighlightBegin: selector.orientation === "horizontal" ? (width - Config.avatarActiveSize * Config.automaticScale(Screen.devicePixelRatio)) / 2 : (height - Config.avatarActiveSize * Config.automaticScale(Screen.devicePixelRatio)) / 2
         preferredHighlightEnd: preferredHighlightBegin
         highlightRangeMode: ListView.StrictlyEnforceRange
         // Padding for centering
@@ -57,8 +58,8 @@ Item {
         }
 
         delegate: Rectangle {
-            width: index === userList.currentIndex ? (Config.avatarActiveSize * Config.generalScale) : (Config.avatarInactiveSize * Config.generalScale)
-            height: index === userList.currentIndex ? (Config.avatarActiveSize * Config.generalScale) : (Config.avatarInactiveSize * Config.generalScale)
+            width: index === userList.currentIndex ? (Config.avatarActiveSize * Config.automaticScale(Screen.devicePixelRatio)) : (Config.avatarInactiveSize * Config.automaticScale(Screen.devicePixelRatio))
+            height: index === userList.currentIndex ? (Config.avatarActiveSize * Config.automaticScale(Screen.devicePixelRatio)) : (Config.avatarInactiveSize * Config.automaticScale(Screen.devicePixelRatio))
             anchors {
                 verticalCenter: selector.orientation === "horizontal" ? parent.verticalCenter : undefined
                 horizontalCenter: selector.orientation === "horizontal" ? undefined : parent.horizontalCenter
@@ -95,7 +96,7 @@ Item {
                 active: index === userList.currentIndex
                 opacity: active ? 1.0 : Config.avatarInactiveOpacity
                 enabled: userModel.rowCount() > 1 // No need to open the selector if there's only one user
-                tooltipText: active && selector.listUsers ? "Close user selection" : (active && !listUsers ? "Select user" : `Select user ${model.name}`)
+                tooltipText: active && selector.listUsers ? (Config.avatarAlwaysActive ? "" : "Close user selection") : (active && !listUsers ? "Select user" : model.name)
                 showTooltip: selector.focus && !listUsers && active
 
                 Behavior on opacity {

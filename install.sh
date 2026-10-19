@@ -7,20 +7,24 @@ grey='\033[2;37m'
 reset="\033[0m"
 
 SHPATH=$( cd -- "$( dirname -- "${BASH_SOURCE[0]}" )" &> /dev/null && pwd )
+: ${THEMES_DIR:=/usr/share/sddm/themes}
 
 install_dependencies () {
     if command -v pacman &>/dev/null; then
         echo -e "${grey}Installing dependencies with 'pacman'...${reset}"
-        sudo pacman -S --needed sddm qt6-svg qt6-virtualkeyboard qt6-multimedia-ffmpeg
+        sudo pacman -S --needed sddm qt6-svg qt6-virtualkeyboard qt6-multimedia-ffmpeg qt6-imageformats
     elif command -v xbps-install &>/dev/null; then
         echo -e "${grey}Installing dependencies with 'xbps'...${reset}"
-        sudo xbps-install sddm qt6-svg qt6-virtualkeyboard qt6-multimedia
+        sudo xbps-install sddm qt6-svg qt6-virtualkeyboard qt6-multimedia qt6-imageformats
     elif command -v dnf &>/dev/null; then
         echo -e "${grey}Installing dependencies with 'dnf'...${reset}"
-        sudo dnf install sddm qt6-qtsvg qt6-qtvirtualkeyboard qt6-qtmultimedia
+        sudo dnf install sddm qt6-qtsvg qt6-qtvirtualkeyboard qt6-qtmultimedia qt6-qtimageformats
+    elif command -v emerge &>/dev/null; then
+        echo -e "${grey}Installing dependencies with 'emerge'...${reset}"
+        USE=ffmpeg emerge -avu qtsvg qtvirtualkeyboard qtmultimedia qtimageformats sddm
     elif command -v zypper &>/dev/null; then
         echo -e "${grey}Installing dependencies with 'zypper'...${reset}"
-        sudo zypper install sddm-qt6 libQt6Svg6 qt6-virtualkeyboard qt6-virtualkeyboard-imports qt6-multimedia qt6-multimedia-imports
+        sudo zypper install sddm-qt6 libQt6Svg6 qt6-virtualkeyboard qt6-virtualkeyboard-imports qt6-multimedia qt6-multimedia-imports qt6-imageformats
     else
         echo -e "\n${red}Could not install dependencies!\nDo it manually: ${cyan}https://github.com/uiriansan/SilentSDDM/wiki#dependencies${reset}\n"
         return 1
@@ -28,14 +32,14 @@ install_dependencies () {
 }
 
 copy_files () {
-    echo -e "${grey}Copying files from '${SHPATH}/' to '/usr/share/sddm/themes/silent/'...${reset}"
-    sudo mkdir -p /usr/share/sddm/themes/silent
-    sudo cp -rf "$SHPATH"/. /usr/share/sddm/themes/silent/
+    echo -e "${grey}Copying files from '${SHPATH}/' to '${THEMES_DIR}/silent/'...${reset}"
+    sudo mkdir -p ${THEMES_DIR}/silent
+    sudo cp -rf "$SHPATH"/. ${THEMES_DIR}/silent/
 }
 
 copy_fonts () {
     echo -e "${grey}Copying fonts to '/usr/share/fonts/'...${reset}"
-    sudo cp -r /usr/share/sddm/themes/silent/fonts/{redhat,redhat-vf} /usr/share/fonts/
+    sudo cp -r ${THEMES_DIR}/silent/fonts/{redhat,redhat-vf} /usr/share/fonts/
 }
 
 apply_theme () {
@@ -55,13 +59,13 @@ apply_theme () {
         fi
 
         # "InputMethod" was supposed to automatically set "QT_IM_MODULE", but it doesn't, so we manually export it.
-        if ! grep -Pzq 'GreeterEnvironment=QML2_IMPORT_PATH=/usr/share/sddm/themes/silent/components/,QT_IM_MODULE=qtvirtualkeyboard' /etc/sddm.conf; then
-            echo -e "\n[General]\nGreeterEnvironment=QML2_IMPORT_PATH=/usr/share/sddm/themes/silent/components/,QT_IM_MODULE=qtvirtualkeyboard,QML_XHR_ALLOW_FILE_READ=1" | sudo tee -a /etc/sddm.conf
+        if ! grep -Pzq 'GreeterEnvironment=QML2_IMPORT_PATH=${THEMES_DIR}/silent/components/,QT_IM_MODULE=qtvirtualkeyboard' /etc/sddm.conf; then
+            echo -e "\n[General]\nGreeterEnvironment=QML2_IMPORT_PATH=${THEMES_DIR}/silent/components/,QT_IM_MODULE=qtvirtualkeyboard,QML_XHR_ALLOW_FILE_READ=1" | sudo tee -a /etc/sddm.conf
         fi
     else
         echo -e "[Theme]\nCurrent=silent" | sudo tee -a /etc/sddm.conf
         echo -e "\n[General]\nInputMethod=qtvirtualkeyboard" | sudo tee -a /etc/sddm.conf
-        echo -e "GreeterEnvironment=QML2_IMPORT_PATH=/usr/share/sddm/themes/silent/components/,QT_IM_MODULE=qtvirtualkeyboard,QML_XHR_ALLOW_FILE_READ=1" | sudo tee -a /etc/sddm.conf
+        echo -e "GreeterEnvironment=QML2_IMPORT_PATH=${THEMES_DIR}/silent/components/,QT_IM_MODULE=qtvirtualkeyboard,QML_XHR_ALLOW_FILE_READ=1" | sudo tee -a /etc/sddm.conf
     fi
 }
 
